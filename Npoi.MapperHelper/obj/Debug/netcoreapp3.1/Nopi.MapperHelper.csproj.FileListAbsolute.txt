@@ -1,0 +1,9 @@
+C:\Project\My\Npoi.MapperHelper\Nopi.MapperHelper\obj\Debug\netcoreapp3.1\Nopi.MapperHelper.csprojAssemblyReference.cache
+C:\Project\My\Npoi.MapperHelper\Nopi.MapperHelper\obj\Debug\netcoreapp3.1\Nopi.MapperHelper.AssemblyInfoInputs.cache
+C:\Project\My\Npoi.MapperHelper\Nopi.MapperHelper\obj\Debug\netcoreapp3.1\Nopi.MapperHelper.AssemblyInfo.cs
+C:\Project\My\Npoi.MapperHelper\Nopi.MapperHelper\obj\Debug\netcoreapp3.1\Nopi.MapperHelper.csproj.CoreCompileInputs.cache
+C:\Project\My\Npoi.MapperHelper\Nopi.MapperHelper\bin\Debug\netcoreapp3.1\Nopi.MapperHelper.deps.json
+C:\Project\My\Npoi.MapperHelper\Nopi.MapperHelper\bin\Debug\netcoreapp3.1\Nopi.MapperHelper.dll
+C:\Project\My\Npoi.MapperHelper\Nopi.MapperHelper\bin\Debug\netcoreapp3.1\Nopi.MapperHelper.pdb
+C:\Project\My\Npoi.MapperHelper\Nopi.MapperHelper\obj\Debug\netcoreapp3.1\Nopi.MapperHelper.dll
+C:\Project\My\Npoi.MapperHelper\Nopi.MapperHelper\obj\Debug\netcoreapp3.1\Nopi.MapperHelper.pdb

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Npoi.MapperHelper</id>
+    <version>1.0.0</version>
+    <authors>webb</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>对于Nopi.Mapper的封装</description>
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.5" exclude="Build,Analyzers" />
+        <dependency id="Npoi.Mapper" version="3.5.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Project\My\Npoi.MapperHelper\Npoi.MapperHelper\bin\Debug\netcoreapp3.1\Npoi.MapperHelper.dll" target="lib\netcoreapp3.1\Npoi.MapperHelper.dll" />
+  </files>
+</package>
