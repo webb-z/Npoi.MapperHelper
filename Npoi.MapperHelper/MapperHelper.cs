@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel;
 
 namespace Npoi.MapperHelper
 {
@@ -22,16 +23,8 @@ namespace Npoi.MapperHelper
         public FileResult Export<T>(IEnumerable<T> obj, string fileName, string contentType, string sheetName)
         {
             var mapper = new Npoi.Mapper.Mapper();
-            foreach (var propertyInfo in typeof(T).GetProperties())
-            {
-                if (propertyInfo.CustomAttributes.ToArray().Count() > 0 && propertyInfo.CustomAttributes.ToArray()[0].ConstructorArguments.Count > 0)
-                {
-                    var value = propertyInfo.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value;
-                    mapper.Map<T>(value.ToString(), propertyInfo.Name);
-                }
-                else
-                    mapper.Map<T>(propertyInfo.Name, propertyInfo.Name);
-            }
+            Dictionary<string, string> dic = MapperConverter<T>(mapper);
+
             System.IO.MemoryStream stream = new System.IO.MemoryStream();
             mapper.Save(stream, obj, sheetName, overwrite: true, xlsx: true);
             return new FileContentResult(stream.ToArray(), contentType) { FileDownloadName = fileName };
@@ -48,20 +41,7 @@ namespace Npoi.MapperHelper
             var mapper = new Npoi.Mapper.Mapper(file.OpenReadStream());
             var work = mapper.Workbook;
             //字典文件转换为Mapper
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            foreach (var propertyInfo in typeof(T).GetProperties())
-            {
-                if (propertyInfo.CustomAttributes.ToArray().Count() > 0 && propertyInfo.CustomAttributes.ToArray()[0].ConstructorArguments.Count > 0)
-                {
-                    mapper.Map<T>(propertyInfo.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value.ToString(), propertyInfo.Name);
-                    dic.Add(propertyInfo.CustomAttributes.ToArray()[0].ConstructorArguments[0].Value.ToString(), propertyInfo.Name);
-                }
-                else
-                {
-                    mapper.Map<T>(propertyInfo.Name, propertyInfo.Name);
-                    dic.Add(propertyInfo.Name, propertyInfo.Name);
-                }
-            }
+            Dictionary<string, string> dic = MapperConverter<T>(mapper);
 
             var valueList = mapper.Take<dynamic>(work.GetSheetName(0)).Select(d => d.Value).ToList();
             List<T> list = new List<T>();
@@ -82,6 +62,33 @@ namespace Npoi.MapperHelper
             return list;
         }
 
+        private static Dictionary<string, string> MapperConverter<T>(Npoi.Mapper.Mapper mapper)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            foreach (var propertyInfo in typeof(T).GetProperties())
+            {
+                if (propertyInfo.GetCustomAttributes(typeof(DescriptionAttribute), false).Length > 0)
+                {
+                    var columnName = propertyInfo.CustomAttributes.Where(d => d.AttributeType == typeof(DescriptionAttribute)).ToArray()[0].ConstructorArguments[0].Value.ToString();
+                    if (!string.IsNullOrWhiteSpace(columnName))
+                    {
+                        mapper.Map<T>(columnName, propertyInfo.Name);
+                        dic.Add(columnName, propertyInfo.Name);
+                    }
+                    else
+                    {
+                        mapper.Map<T>(propertyInfo.Name, propertyInfo.Name);
+                        dic.Add(propertyInfo.Name, propertyInfo.Name);
+                    }
+                }
+                else
+                {
+                    mapper.Map<T>(propertyInfo.Name, propertyInfo.Name);
+                    dic.Add(propertyInfo.Name, propertyInfo.Name);
+                }
+            }
+            return dic;
+        }
 
         /// <summary>
         /// 返回值类型
